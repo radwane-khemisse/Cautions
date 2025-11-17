@@ -1,0 +1,14 @@
+<section class="page">
+  <h2>Dashboard</h2>
+  <p class="muted">Vue rapide des ressources</p>
+  <div class="cards">
+    <div class="card">
+      <p class="label">Companies</p>
+      <p class="value">{{ loading ? '...' : companyCount }}</p>
+    </div>
+    <div class="card">
+      <p class="label">Stocks</p>
+      <p class="value">{{ loading ? '...' : stockCount }}</p>
+    </div>
+  </div>
+</section>

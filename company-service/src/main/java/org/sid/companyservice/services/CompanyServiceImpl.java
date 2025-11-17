@@ -42,6 +42,14 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public CompanyDTO update(Long id, CompanyDTO request) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Company not found: " + id));
+        CompanyMapper.updateEntity(company, request);
+        return CompanyMapper.toDto(company);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<CompanyDTO> findAll() {
         return companyRepository.findAll()

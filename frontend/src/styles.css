@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #e8f0ff;
+  color: #0f172a;
+  font-family: "Inter", Arial, sans-serif;
+}

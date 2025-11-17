@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/companies")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class CompanyController {
 
@@ -21,6 +22,11 @@ public class CompanyController {
     public ResponseEntity<CompanyDTO> create(@RequestBody CompanyDTO request) {
         CompanyDTO created = companyService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PutMapping("/{id}")
+    public CompanyDTO update(@PathVariable Long id, @RequestBody CompanyDTO request) {
+        return companyService.update(id, request);
     }
 
     @DeleteMapping("/{id}")

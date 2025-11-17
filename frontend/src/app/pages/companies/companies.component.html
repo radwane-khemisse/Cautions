@@ -1,0 +1,65 @@
+<section class="page">
+  <div class="header-row">
+    <div>
+      <h2>Companies</h2>
+      <p class="muted">Gérer les entreprises (CRUD)</p>
+    </div>
+    <button class="primary" (click)="reset()">Nouvelle entreprise</button>
+  </div>
+
+  <div class="card form-card">
+    <form (ngSubmit)="submit()">
+      <div class="grid">
+        <label>
+          Nom
+          <input [(ngModel)]="form.name" name="name" required placeholder="Nom" />
+        </label>
+        <label>
+          Domaine
+          <input [(ngModel)]="form.domain" name="domain" placeholder="IT, AI, ..." />
+        </label>
+        <label>
+          IPO Date
+          <input type="date" [(ngModel)]="form.ipoDate" name="ipoDate" />
+        </label>
+        <label>
+          Prix actuel
+          <input type="number" step="0.01" [(ngModel)]="form.currentPrice" name="currentPrice" placeholder="0.00" />
+        </label>
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary">{{ editingId ? 'Mettre à jour' : 'Créer' }}</button>
+        <button type="button" (click)="reset()">Annuler</button>
+      </div>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="table-header">
+      <h3>Liste des companies</h3>
+      <span *ngIf="loading" class="muted">Chargement...</span>
+    </div>
+    <div class="table">
+      <div class="row head">
+        <div>ID</div>
+        <div>Nom</div>
+        <div>Domaine</div>
+        <div>IPO</div>
+        <div>Prix</div>
+        <div>Actions</div>
+      </div>
+      <div class="row" *ngFor="let c of companies">
+        <div>{{ c.id }}</div>
+        <div>{{ c.name }}</div>
+        <div>{{ c.domain || '-' }}</div>
+        <div>{{ c.ipoDate || '-' }}</div>
+        <div>{{ c.currentPrice || '-' }}</div>
+        <div class="row-actions">
+          <button (click)="edit(c)">Éditer</button>
+          <button class="danger" (click)="remove(c.id)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

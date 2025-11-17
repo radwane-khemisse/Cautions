@@ -121,5 +121,13 @@ public class StockController {
 6) Seed : 5 cotations aleatoires au demarrage si base vide.
 
 Tests :
+
 ![Liste des stocks](images/list_stocks.png)
 ![Stock par id](images/stock_by_id.png)
+
+## Question 7
+Developper un frontend web Angular (design simple bleu/blanc):
+- Navbar bleue (liens Dashboard / Companies / Stocks), contenu sur fond bleu très clair avec cartes/formulaires blancs.
+- Page Companies : liste + détail, création, édition, suppression.
+- Page Stocks : liste + détail, ajout, suppression.
+- Page Dashboard : aperçu synthétique (cartes/counts) et accès rapide vers Companies/Stocks.

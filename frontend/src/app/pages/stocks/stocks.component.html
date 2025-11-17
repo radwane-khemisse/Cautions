@@ -1,0 +1,82 @@
+<section class="page">
+  <div class="header-row">
+    <div>
+      <h2>Stocks</h2>
+      <p class="muted">Ajouter et consulter les cotations</p>
+    </div>
+    <button class="primary" (click)="reset()">Nouvelle cotation</button>
+  </div>
+
+  <div class="card form-card">
+    <form (ngSubmit)="submit()">
+      <div class="grid">
+        <label>
+          Company ID
+          <input type="number" [(ngModel)]="form.companyId" name="companyId" required />
+        </label>
+        <label>
+          Date
+          <input type="date" [(ngModel)]="form.date" name="date" />
+        </label>
+        <label>
+          Open
+          <input type="number" step="0.01" [(ngModel)]="form.openValue" name="openValue" />
+        </label>
+        <label>
+          High
+          <input type="number" step="0.01" [(ngModel)]="form.highValue" name="highValue" />
+        </label>
+        <label>
+          Low
+          <input type="number" step="0.01" [(ngModel)]="form.lowValue" name="lowValue" />
+        </label>
+        <label>
+          Close
+          <input type="number" step="0.01" [(ngModel)]="form.closeValue" name="closeValue" />
+        </label>
+        <label>
+          Volume
+          <input type="number" [(ngModel)]="form.volume" name="volume" />
+        </label>
+      </div>
+      <div class="actions">
+        <button type="submit" class="primary">Enregistrer</button>
+        <button type="button" (click)="reset()">Annuler</button>
+      </div>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="table-header">
+      <h3>Liste des stocks</h3>
+      <span *ngIf="loading" class="muted">Chargement...</span>
+    </div>
+    <div class="table">
+      <div class="row head">
+        <div>ID</div>
+        <div>Date</div>
+        <div>Open</div>
+        <div>High</div>
+        <div>Low</div>
+        <div>Close</div>
+        <div>Volume</div>
+        <div>Company</div>
+        <div>Actions</div>
+      </div>
+      <div class="row" *ngFor="let s of stocks">
+        <div>{{ s.id }}</div>
+        <div>{{ s.date || '-' }}</div>
+        <div>{{ s.openValue || '-' }}</div>
+        <div>{{ s.highValue || '-' }}</div>
+        <div>{{ s.lowValue || '-' }}</div>
+        <div>{{ s.closeValue || '-' }}</div>
+        <div>{{ s.volume || '-' }}</div>
+        <div>{{ s.companyId || '-' }}</div>
+        <div class="row-actions">
+          <button class="danger" (click)="remove(s.id)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

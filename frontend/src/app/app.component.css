@@ -1,0 +1,46 @@
+.app-shell {
+  min-height: 100vh;
+  background: #e8f0ff;
+  color: #0f172a;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1d4ed8;
+  color: #fff;
+  padding: 12px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.links {
+  display: flex;
+  gap: 14px;
+}
+
+.links a {
+  color: #dbeafe;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.links a.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+.main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}

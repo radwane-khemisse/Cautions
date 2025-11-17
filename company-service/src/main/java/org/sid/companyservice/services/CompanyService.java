@@ -10,6 +10,8 @@ public interface CompanyService {
 
     void delete(Long id);
 
+    CompanyDTO update(Long id, CompanyDTO request);
+
     CompanyDTO updatePrice(Long id, BigDecimal newPrice);
 
     List<CompanyDTO> findAll();

@@ -1,0 +1,14 @@
+<div class="app-shell">
+  <nav class="navbar">
+    <div class="brand">Stock Dashboard</div>
+    <div class="links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/companies" routerLinkActive="active">Companies</a>
+      <a routerLink="/stocks" routerLinkActive="active">Stocks</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+</div>
