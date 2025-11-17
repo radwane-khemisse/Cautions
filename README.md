@@ -1,27 +1,27 @@
-# Test Systèmes Distribués
+# Test Systemes Distribues
 
 ## Question 1
-Créer un Project Maven incluant les micro-services suivants : company-service, stock-service, chat-bot-service, gateway-service et discovery-service.
+Creer un Project Maven incluant les micro-services suivants : company-service, stock-service, chat-bot-service, gateway-service et discovery-service.
 
 ![Micro-services creation](images/micro_services%20creation.png)
 
 ## Question 2
-Établir une architecture technique du projet.
+Etablir une architecture technique du projet.
 
 ## Question 3
-Développer et tester les micro-services discovery-service et gateway-service.
+Developper et tester les micro-services discovery-service et gateway-service.
 
-Colonnes ajoutées / configuration :
+Configuration :
 - discovery-service : port 8761, Eureka server, register/fetch disabled.
-- gateway-service : port 8888, Eureka client, discovery locator activé, routes vers `lb://company-service` (`/companies/**`) et `lb://stock-service` (`/stocks/**`).
+- gateway-service : port 8888, Eureka client, discovery locator active, routes vers `lb://company-service` (`/companies/**`) et `lb://stock-service` (`/stocks/**`).
 
 ![Gateway instance in discovery](images/gateway_instance-in-discovery.png)
 
 ## Question 4
-Développer et tester le micro-service company-service.
+Developper et tester le micro-service company-service.
 
 Implémentation  :
-1) Entité + Repository
+1) Entite + Repository
 ```java
 @Entity @Table(name = "companies")
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
@@ -71,13 +71,55 @@ public class CompanyController {
   @GetMapping("/domain/{domain}") public List<CompanyDTO> findByDomain(@PathVariable String domain) { ... }
 }
 ```
-5) Config `application.properties` : port 8081, H2 en mémoire, JPA ddl-auto update, Eureka client.
-6) Seed : insertion de 5 companies aléatoires au démarrage si base vide.
+5) Config `application.properties` : port 8081, H2 en memoire, JPA ddl-auto update, Eureka client, config server desactive.
+6) Seed : insertion de 5 companies aleatoires au demarrage si base vide.
 
 Tests :
-affichage de la liste des companies et d'une company par id via le gateway-service.
 ![Liste des companies](images/list_companies.png)
 ![Company par id](images/company_by_id.png)
 
+## Question 5
+Developper et tester le micro-service stock-service.
 
+Implémentation  :
+1) Entite + Repository
+```java
+@Entity @Table(name = "stocks")
+@Data @Builder
+public class StockMarket {
+  Long id; LocalDate date; BigDecimal openValue; BigDecimal highValue; BigDecimal lowValue;
+  BigDecimal closeValue; Long volume; Long companyId;
+}
+```
+2) DTO + Mapper
+```java
+public class StockDTO { ... }
+public class StockMapper { toDto/toEntity/updateEntity }
+```
+3) Service + Feign + Resilience4j
+```java
+@FeignClient(name = "company-service")
+void updatePrice(@PathVariable Long id, @RequestBody PriceUpdateRequest req);
 
+@CircuitBreaker(name = "company-service", fallbackMethod = "updatePriceFallback")
+protected void updateCompanyPrice(StockMarket stock) {
+  companyClient.updatePrice(stock.getCompanyId(), req);
+}
+```
+4) Controller REST `/stocks`
+```java
+@RestController
+@RequestMapping("/stocks")
+public class StockController {
+  @PostMapping public ResponseEntity<StockDTO> addStock(@RequestBody StockDTO dto) { ... }
+  @DeleteMapping("/{id}") public void deleteStock(@PathVariable Long id) { ... }
+  @GetMapping public List<StockDTO> findAll() { ... }
+  @GetMapping("/{id}") public StockDTO findById(@PathVariable Long id) { ... }
+}
+```
+5) Config `application.properties` : port 8082, H2 en memoire, JPA ddl-auto update, Eureka client, Feign circuit breaker active, config server desactive.
+6) Seed : 5 cotations aleatoires au demarrage si base vide.
+
+Tests :
+![Liste des stocks](images/list_stocks.png)
+![Stock par id](images/stock_by_id.png)
